@@ -25,7 +25,13 @@ function createGrid (num) {
 //changes the target color when called
 
 function changeColor(event){
-    event.target.style.backgroundColor = "black";
+    let color = "black"
+    if (eraserOn === true){
+        color = 'white';
+    } else if (rgbMode === true){
+        color = getRandomColor();
+    }
+    event.target.style.backgroundColor = color;
 }
 
 // setGridSize button removes the grid container and creates a new one after asking the user for the number of squares
@@ -55,3 +61,36 @@ resetBtn.addEventListener("click", () => {
     document.body.appendChild(newDiv);
     createGrid(num);
 })
+
+const rgbBtn = document.querySelector("#rgbMode");
+let rgbMode = false;
+rgbBtn.addEventListener("click", () => {
+    if (rgbMode === true){
+        rgbMode = false;
+    } else {
+        rgbMode = true;
+    }
+})
+
+const eraserBtn = document.querySelector("#eraser");
+let eraserOn = false;
+eraserBtn.addEventListener("click", () => {
+    if (eraserOn === true){
+        eraserOn = false;
+    } else {
+        eraserOn = true;
+    }
+})
+
+function getRandomInteger(){
+    return Math.floor(Math.random() * 15) + 1;
+}
+
+function getRandomColor(){
+    let randomColor = "#";
+    let hexDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
+    for (let i = 0; i < 6; i++){
+        randomColor += hexDigits[getRandomInteger()];
+    }
+    return randomColor;
+}
